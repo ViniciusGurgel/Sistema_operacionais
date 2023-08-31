@@ -6,12 +6,12 @@ processos = [150, 300, 200, 50, 100]
 semaphore = Semaphore(1)
 
 
-def execute_task(ver):
+def execute_task(escolha):
     semaphore.acquire()
-    if ver == 1:
+    if escolha == 1:
         print("\n------------------First-Fit------------------")
         firstfit(processos)
-    elif ver == 2:
+    elif escolha == 2:
         print("\n-------------------Best-Fit------------------")
         bestfit(processos)
     else:
@@ -91,7 +91,7 @@ def main():
     print("2. Best-fit")
     print("3. Worst-fit")
     print("4. Sair")
-    ver = int(input())
+    escolha = int(input())
 
     numero_p = int(input("Numero de processos: "))
     numero_threads = int(input("Numero de threads: "))
@@ -105,6 +105,8 @@ def main():
             except AssertionError:
                 print("Tamanho do processo nao pode ser negativo ou nulo! Tente novamente.")
 
+    print("Memória antes:", processos)
+
     print("-------------STARTING OPERATION--------------\n")
     for d in range(45):
         sleep(0.1)
@@ -112,14 +114,15 @@ def main():
 
     threads = []
     for _ in range(numero_threads):
-        thread = Thread(target=execute_task, args=(ver,))
+        thread = Thread(target=execute_task, args=[escolha])
         threads.append(thread)
         thread.start()
 
     for thread in threads:
         thread.join()
 
-    print("Processos antes:", processos)
+    print("Memória depois:", processos)
 
 
 if __name__ == "__main__":
+    main()
